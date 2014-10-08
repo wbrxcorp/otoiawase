@@ -1,0 +1,76 @@
+<div class="container">
+  <!-- ページタイトル -->
+  <h1 class="text-center"><span class="glyphicon glyphicon-envelope"></span> お問い合わせフォーム</h1>
+
+  <!-- フォーム定義開始 -->
+  <form name="form" class="form-horizontal">
+
+    <!-- メールアドレス -->
+    <div class="form-group">
+      <label class="col-sm-3 control-label">メールアドレス</label>
+      <div class="col-sm-9" ng-class="{'has-feedback':form.email.$dirty,'has-success':(form.email.$valid && form.email.$dirty),'has-error':form.email.$invalid && form.email.$dirty}">
+        <input type="email" class="form-control" name="email" ng-model="email" ng-class="{'has-success':form.email.$valid && form.email.$dirty,'has-error':form.email.$invalid && form.email.$dirty}" required>
+        <span class="glyphicon form-control-feedback" ng-show="form.email.$dirty" ng-class="{'glyphicon-ok':(form.email.$valid && form.email.$dirty),'glyphicon-remove':form.email.$invalid && form.email.$dirty}"></span>
+	<span class="text-danger" ng-show="form.email.$error.required">必須項目です</span>
+   	<span class="text-danger" ng-show="form.email.$error.email">正しいメールアドレスを入力してください</span>
+      </div>
+    </div>
+
+    <!-- メールアドレス(確認) -->
+    <div class="form-group">
+      <label class="col-sm-3 control-label">メールアドレス (確認のためもう一度)</label>
+      <div class="col-sm-9" ng-class="{'has-feedback':form.email_cfm.$dirty,'has-success':(form.email_cfm.$valid && form.email_cfm.$dirty),'has-error':form.email_cfm.$invalid && form.email_cfm.$dirty}">
+        <input type="email" class="form-control" name="email_cfm" ng-model="__email_cfm" match="email" autocomplete="off" required>
+        <span class="glyphicon form-control-feedback" ng-show="form.email_cfm.$dirty" ng-class="{'glyphicon-ok':(form.email_cfm.$valid && form.email_cfm.$dirty),'glyphicon-remove':form.email_cfm.$invalid && form.email_cfm.$dirty}"></span>
+   	<span class="text-danger" ng-show="form.email_cfm.$error.required">必須項目です</span>
+   	<span class="text-danger" ng-show="form.email_cfm.$error.email">正しいメールアドレスを入力してください</span>
+   	<span class="text-danger" ng-show="form.email_cfm.$error.mismatch">入力されたメールアドレスが一致しません</span>
+      </div>
+    </div>
+
+    <!-- お問い合わせ内容 -->
+    <div class="form-group">
+      <label class="col-sm-3 control-label">お問い合わせ内容</label>
+      <div class="col-sm-9" ng-class="{'has-feedback':form.inquiry.$dirty,'has-success':(form.inquiry.$valid && form.inquiry.$dirty),'has-error':form.inquiry.$invalid && form.inquiry.$dirty}">
+        <textarea class="form-control" name="inquiry" ng-model="inquiry" rows="6" required></textarea>
+        <span class="glyphicon form-control-feedback" ng-show="form.inquiry.$dirty" ng-class="{'glyphicon-ok':(form.inquiry.$valid && form.inquiry.$dirty),'glyphicon-remove':form.inquiry.$invalid && form.inquiry.$dirty}"></span>
+   	<span class="text-danger" ng-show="form.inquiry.$error.required">必須項目です</span>
+      </div>
+    </div>
+
+    <!-- 送信ボタン -->
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <button type="submit" class="btn btn-primary" ng-disabled="!form.$valid" ng-click="confirm()"><span class="glyphicon glyphicon-send"></span> この内容で送信する</button>
+      </div>
+    </div>
+    <!-- フォーム定義終了 -->
+  </form>
+</div>
+
+<!-- フォーム送信前に表示される確認ダイアログ -->
+<script type="text/ng-template" id="confirm.html">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="$dismiss()">×</button>
+    お問い合わせ内容の確認
+  </div>
+  <div class="modal-body">
+    メールアドレス: {{email}}<br>
+    お問い合わせ内容: <pre>{{inquiry}}</pre>
+  </div>
+  <div class="modal-footer">
+    <a class="btn btn-default" ng-click="$dismiss()">修正する</a>
+    <a class="btn btn-primary" ng-click="$close()">送信</a>
+  </div>
+</script>
+
+<!-- フォーム送信後に表示されるダイアログ -->
+<script type="text/ng-template" id="done.html">
+  <div class="modal-header">送信完了</div>
+  <div class="modal-body">
+    お問い合わせありがとうございました。
+  </div>
+  <div class="modal-footer">
+    <a class="btn btn-primary" href="#" onClick="history.back(); return false;"><span class="glyphicon glyphicon-chevron-left"></span> 戻る</a>
+  </div>
+</script>
