@@ -106,6 +106,8 @@ setcookie("XSRF-TOKEN", session_id());
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-resource.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js"></script>
     <script language="javascript">
+      var INTEGER_REGEXP = /^\-?\d+$/;
+      var FLOAT_REGEXP = /^\-?\d+((\.|\,)\d+)?$/;
       angular.module("Otoiawase", ["ngResource","ui.bootstrap"])
       .run(["$rootScope", "$resource","$modal", function($scope, $resource,$modal) {
         function submit() {
@@ -163,7 +165,23 @@ setcookie("XSRF-TOKEN", session_id());
             });
           }
         }
-      }]);
+      }])
+      .directive('integer', function() {
+        return {
+          require: 'ngModel',
+          link: function(scope, elm, attrs, ctrl) {
+            ctrl.$parsers.unshift(function(viewValue) {
+              if (!viewValue || INTEGER_REGEXP.test(viewValue)) {
+                ctrl.$setValidity('integer', true);
+                return viewValue;
+              } else {
+                ctrl.$setValidity('integer', false);
+                return undefined;
+              }
+            });
+          }
+        };
+      });
     </script>
     <title><?php echo TITLE;?></title>
   </head>
