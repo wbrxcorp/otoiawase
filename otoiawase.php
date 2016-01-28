@@ -94,7 +94,7 @@ if ($ua) {
     }
   }
 }
-setcookie("XSRF-TOKEN", session_id());
+setcookie('XSRF-TOKEN', session_id(), 0/*expire*/,""/*path*/,""/*domain*/,false/*secure*/,true/*httponly*/);
 ?><html lang="ja" ng-app="Otoiawase">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
